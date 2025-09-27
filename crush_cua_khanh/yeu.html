@@ -127,7 +127,8 @@
       function heartPosition(rad) {
         return [
           Math.pow(Math.sin(rad), 3),
-          -(15 * Math.cos(rad) - 5 * Math.cos(2 * rad) - 2 * Math.cos(3 * rad) - Math.cos(4 * rad))
+          // Giảm chiều cao: scale Y nhỏ lại, ví dụ nhân thêm 0.80 (80%) để tim ngắn lại
+          -(15 * Math.cos(rad) - 5 * Math.cos(2 * rad) - 2 * Math.cos(3 * rad) - Math.cos(4 * rad)) * 0.80
         ];
       }
 
