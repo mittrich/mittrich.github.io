@@ -114,9 +114,10 @@
       // Heart size: always fit a square into the viewport center (responsive, no stretch)
       function getHeartScaleAndOffset() {
         var w = canvas.width, h = canvas.height;
-        var size = Math.min(w, h) * 0.44; // 0.44 ~ nice margin
+        var size = Math.min(w, h) * 0.44;
         var offsetX = w / 2;
-        var offsetY = h / 2 + size * 0.05; // move a bit down for balance
+        // Kéo lên cao hơn: giảm offsetY, trước là + size*0.05, giờ là - size*0.15
+        var offsetY = h / 2 - size * 0.15;
         return {size, offsetX, offsetY};
       }
 
@@ -184,7 +185,8 @@
           q: ~~(rand() * heartPointsCount),
           D: 2 * (i % 2) - 1,
           force: 0.2 * rand() + 0.7,
-          f: "rgb(200, 96, 123)",
+          // Đậm màu hơn (opacity cao hơn), thử rgb(200, 40, 70)
+          f: "rgba(200,40,70,0.75)",
           trace: []
         };
         for (var k = 0; k < traceCount; k++) e[i].trace[k] = {
@@ -202,7 +204,8 @@
         var k = (1 + n) * 0.5;
         pulse(k);
         time += ((Math.sin(time)) < 0 ? 9 : (n > 0.8) ? .2 : 1) * config.timeDelta;
-        ctx.fillStyle = "rgba(0,0,0,.1)";
+        // Đậm hơn nữa: giảm alpha nền đi một chút (0.1 -> 0.06)
+        ctx.fillStyle = "rgba(0,0,0,.06)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         for (i = e.length; i--;) {
           var u = e[i];
@@ -237,15 +240,15 @@
             N.y -= config.traceK * (N.y - T.y);
           }
           ctx.fillStyle = u.f;
+          // Đậm hơn nữa: mỗi điểm vẽ 1px x 2px
           for (k = 0; k < u.trace.length; k++) {
-            ctx.fillRect(u.trace[k].x, u.trace[k].y, 1, 1);
+            ctx.fillRect(u.trace[k].x, u.trace[k].y, 1, 2);
           }
         }
         window.requestAnimationFrame(loop, canvas);
       };
       loop();
 
-      // On resize: update everything for new size
       window.addEventListener('resize', function() {
         resizeCanvas(canvas);
         var {size: scale, offsetX: dx, offsetY: dy} = getHeartScaleAndOffset();
