@@ -1,0 +1,45 @@
+body {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+}
+
+.center-content {
+    position: absolute;
+    z-index: 10;
+    top: -4vh;
+    width: 100%;
+    text-align: center;
+    color: #be2edd;
+    text-shadow: 0 2px 8px #fff8, 0 1px 1px #0004;
+}
+
+h1 {
+    font-size: 3.5em;
+    margin-bottom: 0.2em;
+    letter-spacing: 2px;
+    font-weight: bold;
+    animation: popIn 1s;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.6); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+.name {
+    color: #eb2f06;
+    text-shadow: 0 2px 12px #f8a5c2, 0 1px 1px #000;
+}
+
+canvas#fireworks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+}
