@@ -73,7 +73,7 @@
 </head>
 
 <body>
-  <canvas id="heart"></canvas>
+  nvas id="d="heart"></canvas>
 
   <script>
     (function () {
@@ -122,31 +122,26 @@
 
       function setupCanvas() {
         mobile = window.isDevice;
-        // Tăng hệ số koef để trái tim lớn hơn trên điện thoại
-        koef = mobile ? 0.8 : 1;
+        // Tăng hệ số để trái tim to hơn trên điện thoại
+        koef = mobile ? 1.2 : 1;
 
-        // Kích thước canvas hiển thị CSS full màn hình
         width = window.innerWidth * koef;
         height = window.innerHeight * koef;
 
         canvas.style.width = window.innerWidth + 'px';
         canvas.style.height = window.innerHeight + 'px';
 
-        // Kích thước canvas thực tế theo devicePixelRatio
         canvas.width = window.innerWidth * dpr;
         canvas.height = window.innerHeight * dpr;
 
-        // Reset transform rồi scale context theo devicePixelRatio
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.scale(dpr, dpr);
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Tính scaleX, scaleY dựa vào kích thước màn hình nhân với koef
         scaleX = mobile ? width / 2.5 : 210;
         scaleY = mobile ? height / 80 : 13;
 
-        // Tính các điểm gốc cho trái tim
         pointsOrigin = [];
         var dr = mobile ? 0.3 : 0.1;
         for (var i = 0; i < Math.PI * 2; i += dr)
