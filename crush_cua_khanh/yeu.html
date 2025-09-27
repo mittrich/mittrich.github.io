@@ -50,8 +50,8 @@
     });
   </script>
   <style>
-    /* full màn hình cho canvas */
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
       overflow: hidden;
@@ -59,6 +59,7 @@
       width: 100%;
       background: rgba(0, 0, 0, 0.2);
     }
+
     canvas {
       display: block;
       position: fixed;
@@ -121,29 +122,31 @@
 
       function setupCanvas() {
         mobile = window.isDevice;
-        koef = mobile ? 0.5 : 1;
+        // Tăng hệ số koef để trái tim lớn hơn trên điện thoại
+        koef = mobile ? 0.8 : 1;
 
-        // Kích thước canvas hiển thị CSS
+        // Kích thước canvas hiển thị CSS full màn hình
         width = window.innerWidth * koef;
         height = window.innerHeight * koef;
 
         canvas.style.width = window.innerWidth + 'px';
         canvas.style.height = window.innerHeight + 'px';
 
-        // Kích thước canvas thực (tăng theo dpr để sắc nét)
+        // Kích thước canvas thực tế theo devicePixelRatio
         canvas.width = window.innerWidth * dpr;
         canvas.height = window.innerHeight * dpr;
 
-        // Reset scale, rồi set scale mới theo dpr
+        // Reset transform rồi scale context theo devicePixelRatio
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.scale(dpr, dpr);
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Tính scale trái tim dựa trên kích thước canvas hiển thị CSS
+        // Tính scaleX, scaleY dựa vào kích thước màn hình nhân với koef
         scaleX = mobile ? width / 2.5 : 210;
         scaleY = mobile ? height / 80 : 13;
 
+        // Tính các điểm gốc cho trái tim
         pointsOrigin = [];
         var dr = mobile ? 0.3 : 0.1;
         for (var i = 0; i < Math.PI * 2; i += dr)
@@ -183,7 +186,6 @@
       function pulse(kx, ky) {
         for (var i = 0; i < pointsOrigin.length; i++) {
           targetPoints[i] = [];
-          // Cập nhật tọa độ vẽ trái tim ở chính giữa canvas (theo CSS width và height)
           targetPoints[i][0] = kx * pointsOrigin[i][0] + window.innerWidth / 2;
           targetPoints[i][1] = ky * pointsOrigin[i][1] + window.innerHeight / 2;
         }
@@ -193,7 +195,6 @@
         var n = -Math.cos(time);
         pulse((1 + n) * 0.5, (1 + n) * 0.5);
         time += ((Math.sin(time)) < 0 ? 9 : (n > 0.8) ? 0.2 : 1) * config.timeDelta;
-
         ctx.fillStyle = "rgba(0,0,0,0.1)";
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
