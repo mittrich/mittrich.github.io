@@ -82,9 +82,10 @@
 <body>
   <canvas id="heart"></canvas>
   <script>
-    function resizeCanvas(canvas, koef) {
-      canvas.width = koef * window.innerWidth;
-      canvas.height = koef * window.innerHeight;
+    function resizeCanvas(canvas) {
+      // Always fit canvas to window size
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
       canvas.style.width = "100vw";
       canvas.style.height = "100vh";
     }
@@ -114,10 +115,24 @@
       if (loaded) return;
       loaded = true;
       var mobile = window.isDevice;
-      var koef = mobile ? 1 : 1; // Use 1 for both, canvas will scale using CSS for retina
       var canvas = document.getElementById('heart');
       var ctx = canvas.getContext('2d');
-      resizeCanvas(canvas, koef);
+      resizeCanvas(canvas);
+
+      // Calculate heart size so it fits in both width and height (square bounding box centered)
+      function getHeartScale() {
+        var w = canvas.width, h = canvas.height;
+        // Heart's original max x ~1, min y ~-17, max y ~13, so height range ~30, width range ~2
+        // But the heart function scales best if both axes use the same scale, fit to min(w, h)
+        // We'll make the heart occupy about 80% of the smallest dimension
+        var scale = 0.38 * Math.min(w, h); // 0.38 empirically fits heart nicely
+        return scale;
+      }
+
+      function getHeartYOffset() {
+        // Move heart up a bit so it's visually centered
+        return canvas.height / 2 + getHeartScale() * 0.25;
+      }
 
       var rand = Math.random;
       ctx.fillStyle = "rgba(0,0,0,1)";
@@ -126,11 +141,11 @@
       var heartPosition = function(rad) {
         return [Math.pow(Math.sin(rad), 3), -(15 * Math.cos(rad) - 5 * Math.cos(2 * rad) - 2 * Math.cos(3 * rad) - Math.cos(4 * rad))];
       };
-      var scaleAndTranslate = function(pos, sx, sy, dx, dy) {
-        return [dx + pos[0] * sx, dy + pos[1] * sy];
+      var scaleAndTranslate = function(pos, s, dx, dy) {
+        return [dx + pos[0] * s, dy + pos[1] * s];
       };
       var updateCanvasSize = function() {
-        resizeCanvas(canvas, koef);
+        resizeCanvas(canvas);
         ctx.fillStyle = "rgba(0,0,0,1)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       };
@@ -140,25 +155,30 @@
       var pointsOrigin = [];
       var i;
       var dr = mobile ? 0.3 : 0.1;
-      var width = function() { return canvas.width; };
-      var height = function() { return canvas.height; };
-
-      for (i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), 0.3 * width(), 0.02 * height(), 0, 0));
-      for (i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), 0.21 * width(), 0.014 * height(), 0, 0));
-      for (i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), 0.14 * width(), 0.008 * height(), 0, 0));
+      var scale = getHeartScale();
+      var offsetY = getHeartYOffset();
+      // Generate heart outlines, all use same scale for both x and y (keep ratio 1:1)
+      for (i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), scale, canvas.width/2, offsetY));
+      for (i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), scale*0.7, canvas.width/2, offsetY));
+      for (i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), scale*0.4, canvas.width/2, offsetY));
       var heartPointsCount = pointsOrigin.length;
       var targetPoints = [];
-      var pulse = function(kx, ky) {
+      var pulse = function(k) {
+        // Single k for scale
+        scale = getHeartScale();
+        offsetY = getHeartYOffset();
         for (i = 0; i < pointsOrigin.length; i++) {
-          targetPoints[i] = [];
-          targetPoints[i][0] = kx * pointsOrigin[i][0] + width() / 2;
-          targetPoints[i][1] = ky * pointsOrigin[i][1] + height() / 2;
+          // The original pointsOrigin were generated at (scale, offset), so we must recalc here
+          var group = (i < heartPointsCount/3) ? 1 : (i < 2*heartPointsCount/3) ? 0.7 : 0.4;
+          var rad = (i % (heartPointsCount/3)) * dr;
+          var pos = scaleAndTranslate(heartPosition(rad), scale*group*k, canvas.width/2, offsetY);
+          targetPoints[i] = [pos[0], pos[1]];
         }
       };
       var e = [];
       for (i = 0; i < heartPointsCount; i++) {
-        var x = rand() * width();
-        var y = rand() * height();
+        var x = rand() * canvas.width;
+        var y = rand() * canvas.height;
         e[i] = {
           vx: 0,
           vy: 0,
@@ -181,11 +201,13 @@
       };
       var time = 0;
       var loop = function() {
+        // Use single k for both axes
         var n = -Math.cos(time);
-        pulse((1 + n) * .5, (1 + n) * .5);
+        var k = (1 + n) * .5;
+        pulse(k);
         time += ((Math.sin(time)) < 0 ? 9 : (n > 0.8) ? .2 : 1) * config.timeDelta;
         ctx.fillStyle = "rgba(0,0,0,.1)";
-        ctx.fillRect(0, 0, width(), height());
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         for (i = e.length; i--;) {
           var u = e[i];
           var q = targetPoints[u.q];
