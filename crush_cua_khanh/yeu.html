@@ -76,34 +76,13 @@
       z-index: 1;
       pointer-events: none;
     }
-    .center-message {
-      position: absolute;
-      top: 10vh;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-      color: #fff;
-      font-size: 6vw;
-      text-shadow: 0 2px 8px #000;
-      font-family: 'Arial', sans-serif;
-      white-space: nowrap;
-      pointer-events: none;
-    }
-    @media (max-width: 600px) {
-      .center-message {
-        font-size: 8vw;
-        top: 6vh;
-      }
-    }
   </style>
 </head>
 
 <body>
   <canvas id="heart"></canvas>
-  <div class="center-message">Tuan</div>
   <script>
     function resizeCanvas(canvas, koef) {
-      // Ensure the canvas fills the viewport exactly on all platforms
       canvas.width = koef * window.innerWidth;
       canvas.height = koef * window.innerHeight;
       canvas.style.width = "100vw";
