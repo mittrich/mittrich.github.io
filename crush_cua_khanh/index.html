@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Crush yeu</title>
+    <meta property="og:title" content="Nè Crush Ơi" />
+    <meta property="og:description" content="Làm NY tớ nhé" />
+    <meta property="og:image" content="https://media.giphy.com/media/sMk1AjUDu9b2w/giphy.gif" />
+    <link rel="shortcut icon" href="./icon.png" type="image/x-icon">
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript">
+    jQuery(document).ready(function () {
+      jQuery('body').bind('cut copy paste', function (e) {
+        e.preventDefault();
+      });
+      jQuery("body").on("contextmenu",function(e){
+        return false;
+      });
+    });
+    jQuery(document).keydown(function (event) {
+      if (event.keyCode == 123) {
+        return false;
+      }
+      if (event.ctrlKey && event.shiftKey && event.keyCode == 67) {
+        return false;
+      }
+      if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+        return false;
+      }
+    });
+    document.onkeydown = function(e) {
+      if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 86 || e.keyCode === 85 || e.keyCode === 117)) {
+        return false;
+      } else {
+        return true;
+      }
+    };
+    jQuery(document).keypress("u",function(e) {
+      if(e.ctrlKey) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    document.body.addEventListener('keydown', event => {
+      if (event.ctrlKey && 'spa'.indexOf(event.key) !== -1) {
+        event.preventDefault()
+      }
+    })
+  </script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/spinload.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href=" https://fonts.googleapis.com/css?family=Pacifico"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="wrapper">
+      <!-- Preloader -->
+      <div id="preloader">
+        <div class="spinner">
+          <div class="rect1"></div>
+          <div class="rect2"></div>
+          <div class="rect3"></div>
+          <div class="rect4"></div>
+          <div class="rect5"></div>
+        </div>
+      </div>
+      <div id="bg"></div>
+      <div class="content">
+        <header>
+          <h2 id="text3">Cậu yêu tớ có phải không nào ._.</h2>
+          <h4 id="text4">
+            Nếu cậu ko trả lời mà thoát ra tức là muốn làm vợ tớ rùi đó nha :v
+          </h4>
+        </header>
+        <button id="yes" type="button" class="btn btn-danger btn-lg">
+          Yêu ơi là yêuuuuuu <333
+        </button>
+        <button id="no" type="button" class="btn btn-info btn-lg">
+          Cậu mơ à :333
+        </button>
+      </div>
+    </div>
+    <audio src="./sound/sound.mp3" autoplay></audio>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="js/myJs.js"></script>
+  </body>
+</html>
