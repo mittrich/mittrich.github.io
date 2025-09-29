@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Máy tính cầm tay - Phiên bản yêu cầu</title>
+  <style>
+    body {
+      background-color: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Arial', sans-serif;
+      color: #0f0;
+    }
+    .calculator {
+      background-color: #333;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #000;
+      width: 320px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    input[type="text"] {
+      background-color: #1c1c1c;
+      border: none;
+      border-radius: 8px;
+      color: #0f0;
+      font-size: 1.5em;
+      padding: 10px;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 2px;
+      text-align: center;
+      user-select: none;
+    }
+    input[type="text"]:focus {
+      outline: 2px solid #0f0;
+    }
+    select {
+      background-color: #1c1c1c;
+      border: none;
+      border-radius: 8px;
+      color: #0f0;
+      font-size: 1.5em;
+      padding: 10px;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 2px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    button {
+      background-color: #e85c41;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1.5em;
+      padding: 15px 0;
+      cursor: pointer;
+      box-shadow: inset 0 -4px 0 #a33;
+      transition: background-color 0.2s;
+      user-select: none;
+    }
+    button:hover {
+      background-color: #f06c51;
+    }
+    .result {
+      background-color: #1c1c1c;
+      border-radius: 8px;
+      color: #0f0;
+      font-size: 1.8em;
+      padding: 15px;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 2px;
+      text-align: center;
+      user-select: none;
+      min-height: 40px;
+      border: 2px solid #0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" id="num1" placeholder="Nhập số thứ nhất" />
+    <select id="operator" aria-label="Chọn phép tính">
+      <option value="+">+</option>
+      <option value="-">−</option>
+      <option value="*">×</option>
+      <option value="/">÷</option>
+    </select>
+    <input type="text" id="num2" placeholder="Nhập số thứ hai" />
+    <button id="equalBtn">=</button>
+    <div id="result" class="result">Kết quả sẽ hiển thị ở đây</div>
+  </div>
+
+  <script>
+    const num1Input = document.getElementById('num1');
+    const num2Input = document.getElementById('num2');
+    const operatorInput = document.getElementById('operator');
+    const equalBtn = document.getElementById('equalBtn');
+    const resultDiv = document.getElementById('result');
+
+    equalBtn.addEventListener('click', () => {
+      // Theo yêu cầu, không tính toán mà luôn trả về "hello world"
+      resultDiv.textContent = 'hello world';
+    });
+
+    // Nếu muốn, bạn có thể dễ dàng mở rộng để tính toán thực tế trong tương lai.
+  </script>
+</body>
+</html>
